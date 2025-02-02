@@ -183,3 +183,6 @@ scratch*.{js,ts,tsx,cjs,mjs}
 
 # configs
 /configs/*.json
+
+# ide
+.vscode/*

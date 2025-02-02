@@ -1,11 +1,11 @@
-import sql from "../../../databases/postgres";
-import { AppError } from "../../../errors/AppError";
-import { DatabaseConflictError } from "../../../errors/DatabaseConflictError";
-import User from "../domain/entity/user";
+import sql from '../../../databases/postgres';
+import { AppError } from '../../../errors/AppError';
+import { DatabaseConflictError } from '../../../errors/DatabaseConflictError';
+import User from '../domain/entity/user';
 
-export async function insert(user: User): Promise<User> {
-    try {
-        const [insertedUser] = await sql<User[]>`
+export const insert = async (user: User): Promise<User> => {
+  try {
+    const [insertedUser] = await sql<User[]>`
         insert into users
             (id, full_name, username, password, email, created_at, updated_at)
         values
@@ -13,12 +13,12 @@ export async function insert(user: User): Promise<User> {
         returning full_name, username, password, email, created_at, updated_at
         `;
 
-        return insertedUser;
-    } catch (error: any) {
-        // psql conflict code
-        if (error.code === '23505') {
-            throw new DatabaseConflictError("username or email already exists", "conflict");
-        }
-        throw new AppError("unexpected error occured while inserting the user", 500, error)
+    return insertedUser;
+  } catch (error) {
+    // psql conflict code
+    if (error.code === '23505') {
+      throw new DatabaseConflictError('username or email already exists', 'conflict');
     }
-}
+    throw new AppError('unexpected error occured while inserting the user', 500, error);
+  }
+};
