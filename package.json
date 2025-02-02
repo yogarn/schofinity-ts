@@ -1,5 +1,18 @@
 {
   "dependencies": {
-    "express": "^4.21.2"
+    "@types/convict": "^6.1.6",
+    "@types/convict-format-with-validator": "^6.0.5",
+    "@types/dotenv": "^8.2.3",
+    "@types/express": "^5.0.0",
+    "@types/uuid": "^10.0.0",
+    "body-parser": "^1.20.3",
+    "convict": "^6.2.4",
+    "convict-format-with-validator": "^6.2.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "postgres": "^3.4.5",
+    "ulid": "^2.3.0",
+    "uuid": "^11.0.5",
+    "zod": "^3.24.1"
   }
 }
