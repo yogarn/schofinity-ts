@@ -9,6 +9,7 @@ export const register = async (req: Request, res: Response, next: NextFunction):
     const userRequest: RegisterSchema = RegisterRequest.parse(req.body);
     const user = await create(userRequest);
     res.status(201).json(user);
+    return;
   } catch (error) {
     return next(error);
   }
