@@ -1,7 +1,7 @@
 import sql from '../../../databases/postgres';
 import { AppError } from '../../../errors/AppError';
 import { DatabaseConflictError } from '../../../errors/DatabaseConflictError';
-import type User from '../domain/entity/user';
+import type { User } from '../domain/entity/user';
 
 export const insert = async (user: User): Promise<User> => {
   try {

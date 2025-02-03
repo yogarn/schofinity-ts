@@ -3,8 +3,8 @@ import { AppError } from '../../../../errors/AppError';
 import { DatabaseConflictError } from '../../../../errors/DatabaseConflictError';
 import { insert } from '../../data-access/user';
 import { type RegisterSchema } from '../dto/registerRequest';
-import type UserResponse from '../dto/userResponse';
-import type User from '../entity/user';
+import type { UserResponse } from '../dto/userResponse';
+import type { User } from '../entity/user';
 
 export const create = async (userRequest: RegisterSchema): Promise<UserResponse> => {
   try {
