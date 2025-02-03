@@ -1,10 +1,11 @@
+import type { NextFunction, Request, Response } from 'express';
 import { ZodError } from 'zod';
 import logger from '../libraries/logger/winston';
 import { AppError } from './AppError';
 
-export const globalErrorHandler = async (err, req, res, _next): Promise<void> => {
+export const globalErrorHandler = async (err: unknown, req: Request, res: Response, _next: NextFunction): Promise<void> => {
   if (err instanceof ZodError) {
-    return res.status(400).json({
+    res.status(400).json({
       message: 'Validation failed',
       errors: err.errors.map((issue) => ({
         path: issue.path,
@@ -14,7 +15,7 @@ export const globalErrorHandler = async (err, req, res, _next): Promise<void> =>
   }
 
   if (err instanceof AppError) {
-    return res.status(err.statusCode).json({
+    res.status(err.statusCode).json({
       message: err.message,
       errors: err.details,
     });

@@ -1,7 +1,7 @@
 import sql from '../../../databases/postgres';
 import { AppError } from '../../../errors/AppError';
 import { DatabaseConflictError } from '../../../errors/DatabaseConflictError';
-import User from '../domain/entity/user';
+import type User from '../domain/entity/user';
 
 export const insert = async (user: User): Promise<User> => {
   try {
@@ -14,11 +14,15 @@ export const insert = async (user: User): Promise<User> => {
         `;
 
     return insertedUser;
-  } catch (error) {
-    // psql conflict code
-    if (error.code === '23505') {
-      throw new DatabaseConflictError('username or email already exists', 'conflict');
+  } catch (error: unknown) {
+    if (error instanceof Error && 'code' in error) {
+      const err = error as { code: string };
+
+      if (err.code === '23505') {
+        throw new DatabaseConflictError('username or email already exists', null);
+      }
     }
+
     throw new AppError('unexpected error occured while inserting the user', 500, error);
   }
 };
