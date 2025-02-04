@@ -26,3 +26,18 @@ export const insert = async (user: User): Promise<User> => {
     throw new AppError('unexpected error occured while inserting the user', 500, error);
   }
 };
+
+export const update = async (userId: string, user: Partial<User>): Promise<User> => {
+  try {
+    const [updatedUser] = await sql<User[]>`
+      UPDATE users
+      SET ${sql(user)}
+      WHERE id = ${userId}
+      RETURNING full_name, username, password, email, created_at, updated_at
+    `;
+
+    return updatedUser;
+  } catch (error: unknown) {
+    throw new AppError('unexpected error occured while updating the user', 500, error);
+  }
+};

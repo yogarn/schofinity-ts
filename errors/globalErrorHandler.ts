@@ -17,7 +17,7 @@ export const globalErrorHandler = async (err: unknown, req: Request, res: Respon
   }
 
   if (err instanceof AppError) {
-    logger.error(err.message, { details: err.details, traceId });
+    logger.error(err.message, { details: err, traceId });
     res.status(err.statusCode).json({
       message: err.message,
       errors: traceId,

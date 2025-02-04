@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const UpdateRequest = z
+export const PatchRequest = z
   .object({
     fullName: z.string().min(5, 'Full name should be at least 5 characters').optional(),
     username: z.string().min(3, 'Username should be at least 3 characters').optional(),
@@ -11,4 +11,4 @@ export const UpdateRequest = z
     message: 'At least one field must be provided for update',
   });
 
-export type UpdateSchema = z.infer<typeof UpdateRequest>;
+export type PatchSchema = z.infer<typeof PatchRequest>;
