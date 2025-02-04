@@ -11,11 +11,7 @@ export const globalErrorHandler = async (err: unknown, req: Request, res: Respon
     logger.error('validation failed', { details: err.errors, traceId });
     res.status(400).json({
       message: 'validation failed',
-      errors: err.errors.map((issue) => ({
-        path: issue.path,
-        message: issue.message,
-      })),
-      traceId: traceId,
+      errors: traceId,
     });
     return;
   }
@@ -24,7 +20,7 @@ export const globalErrorHandler = async (err: unknown, req: Request, res: Respon
     logger.error(err.message, { details: err.details, traceId });
     res.status(err.statusCode).json({
       message: err.message,
-      errors: err.details,
+      errors: traceId,
     });
     return;
   }
@@ -32,6 +28,7 @@ export const globalErrorHandler = async (err: unknown, req: Request, res: Respon
   logger.error('internal server error', { details: err, traceId });
   res.status(500).json({
     message: 'Internal server error',
+    errors: traceId,
   });
   return;
 };
