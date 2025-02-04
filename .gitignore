@@ -186,6 +186,7 @@ scratch*.{js,ts,tsx,cjs,mjs}
 
 # ide
 .vscode/*
+.idea/*
 
 # logs
 /logs/*
