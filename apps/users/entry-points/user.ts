@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from 'express';
-import { RegisterRequest, type RegisterSchema } from '../domain/dto/registerRequest';
+import { RegisterRequest, type RegisterSchema } from '../domain/dto/RegisterRequest';
 import { create } from '../domain/services/user';
 
 // export async function login(req, res) {}
