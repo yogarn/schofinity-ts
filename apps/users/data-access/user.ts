@@ -6,11 +6,9 @@ import type { User } from '../domain/entity/user';
 export const insert = async (user: User): Promise<User> => {
   try {
     const [insertedUser] = await sql<User[]>`
-        insert into users
-            (id, full_name, username, password, email, created_at, updated_at)
-        values
-            (${user.id}, ${user.fullName}, ${user.username}, ${user.password}, ${user.email}, ${user.createdAt}, ${user.updatedAt})
-        returning full_name, username, password, email, created_at, updated_at
+        INSERT INTO users
+            ${sql(user)}
+        RETURNING full_name, username, password, email, created_at, updated_at
         `;
 
     return insertedUser;
