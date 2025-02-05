@@ -8,7 +8,7 @@ export const globalErrorHandler = async (err: unknown, req: Request, res: Respon
   const traceId = generateTraceId();
 
   if (err instanceof ZodError) {
-    logger.error('validation failed', { details: err.errors, traceId });
+    logger.error('validation failed', { details: err, traceId, stack: err.stack });
     res.status(400).json({
       message: 'validation failed',
       errors: traceId,
@@ -17,11 +17,16 @@ export const globalErrorHandler = async (err: unknown, req: Request, res: Respon
   }
 
   if (err instanceof AppError) {
-    logger.error(err.message, { details: err, traceId });
+    logger.error(err.message, { details: err, traceId, stack: err.stack });
     res.status(err.statusCode).json({
       message: err.message,
       errors: traceId,
     });
+
+    if (!err.isOperational) {
+      logger.error('non-operational error detected, gracefully shutting down');
+      process.exit(1);
+    }
     return;
   }
 
@@ -30,5 +35,8 @@ export const globalErrorHandler = async (err: unknown, req: Request, res: Respon
     message: 'Internal server error',
     errors: traceId,
   });
+
+  logger.error('unexpected error detected, gracefully shutting down');
+  process.exit(1);
   return;
 };

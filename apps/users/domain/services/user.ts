@@ -1,6 +1,6 @@
 import { ulid } from 'ulid';
 import { AppError } from '../../../../errors/AppError';
-import { DatabaseConflictError } from '../../../../errors/DatabaseConflictError';
+import errorManagement from '../../../../errors/errorManagement';
 import { insert, update } from '../../data-access/user';
 import type { PatchSchema } from '../dto/PatchRequest';
 import { type RegisterSchema } from '../dto/RegisterRequest';
@@ -19,11 +19,11 @@ export const create = async (userRequest: RegisterSchema): Promise<UserResponse>
     const insertedUser = await insert(user);
     return userResponseBuilder(insertedUser);
   } catch (error) {
-    if (error instanceof DatabaseConflictError) {
+    if (error instanceof AppError) {
       throw error;
     }
 
-    throw new AppError('unexpected error occured while creating the user', 500, error);
+    throw new AppError(errorManagement.commonErrors.InternalServerError, 'unexpected error occured while creating the user', false);
   }
 };
 
@@ -36,7 +36,7 @@ export const edit = async (userId: string, userRequest: PatchSchema): Promise<Us
     if (error instanceof AppError) {
       throw error;
     }
-    throw new AppError('unexpected error occured while editing the user', 500, error);
+    throw new AppError(errorManagement.commonErrors.InternalServerError, 'unexpected error occured while editing the user', false);
   }
 };
 

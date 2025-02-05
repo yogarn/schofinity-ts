@@ -22,7 +22,7 @@ export const connectToDatabase = async (): Promise<void> => {
     await sql`SELECT 1`;
     logger.info('Database connection successful');
   } catch (err) {
-    logger.info('Error connecting to the database:', err);
+    logger.error('Error connecting to the database:', err);
     process.exit(1);
   }
 };
