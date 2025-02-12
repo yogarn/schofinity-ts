@@ -22,6 +22,13 @@ app.get('/', (req, res) => {
 
 app.use(globalErrorHandler);
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   logger.info(`listening on port ${port}`);
 });
+
+export const gracefulShutdown = (): void => {
+  server.close(() => {
+    logger.info('http server closed');
+    process.exit(1);
+  });
+};
