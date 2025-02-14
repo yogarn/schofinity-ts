@@ -3,6 +3,27 @@ import { AppError } from '../../../errors/AppError';
 import errorManagement from '../../../errors/errorManagement';
 import type { User } from '../domain/entity/user';
 
+export const selectUser = async (userId: string): Promise<User> => {
+  try {
+    const [selectedUser] = await sql<User[]>`
+      SELECT full_name, username, password, email, created_at, updated_at FROM users
+      WHERE id = ${userId}
+    `;
+
+    if (!selectedUser) {
+      throw new AppError(errorManagement.commonErrors.NotFound, 'user not found', true);
+    }
+
+    return selectedUser;
+  } catch (error: unknown) {
+    if (error instanceof AppError) {
+      throw error;
+    }
+
+    throw new AppError(errorManagement.commonErrors.InternalServerError, 'unexpected error while selecting the user', false);
+  }
+};
+
 export const insert = async (user: User): Promise<User> => {
   try {
     const [insertedUser] = await sql<User[]>`
