@@ -24,6 +24,26 @@ export const selectUser = async (userId: string): Promise<User> => {
   }
 };
 
+export const selectAllUser = async (): Promise<User[]> => {
+  try {
+    const selectedUsers = await sql<User[]>`
+      SELECT full_name, username, password, email, created_at, updated_at FROM users
+    `;
+
+    if (!selectedUsers) {
+      throw new AppError(errorManagement.commonErrors.NotFound, 'user not found', true);
+    }
+
+    return selectedUsers;
+  } catch (error: unknown) {
+    if (error instanceof AppError) {
+      throw error;
+    }
+
+    throw new AppError(errorManagement.commonErrors.InternalServerError, 'unexpected error while selecting the user', false);
+  }
+};
+
 export const insert = async (user: User): Promise<User> => {
   try {
     const [insertedUser] = await sql<User[]>`
