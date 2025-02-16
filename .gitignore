@@ -190,3 +190,6 @@ scratch*.{js,ts,tsx,cjs,mjs}
 
 # logs
 /logs/*
+
+# key
+*.pem
