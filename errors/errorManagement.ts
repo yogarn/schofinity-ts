@@ -10,6 +10,9 @@ const errorManagement = {
     InvalidJwtFormat: { message: 'invalid jwt format', status: 403 },
     InvalidJwt: { message: 'invalid jwt', status: 403 },
   },
+  bcryptErrors: {
+    InvalidPassword: { message: 'invalid password', status: 401 },
+  },
 };
 
 export default errorManagement;

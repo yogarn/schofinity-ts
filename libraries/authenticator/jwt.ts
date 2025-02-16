@@ -1,13 +1,16 @@
 import fs from 'fs';
 import jwt, { type JwtPayload } from 'jsonwebtoken';
+import config from '../../configs';
 
-const privateKey = fs.readFileSync('ed_private.pem', 'utf8');
-const publicKey = fs.readFileSync('ed_public.pem', 'utf8');
+const expiry = config.get('jwt.expiry');
+
+const privateKey = fs.readFileSync('private.pem', 'utf8');
+const publicKey = fs.readFileSync('public.pem', 'utf8');
 
 export const signToken = (userId: string, roleId: number): string => {
   const token = jwt.sign({ userId, roleId }, privateKey, {
     algorithm: 'RS256',
-    expiresIn: '1h',
+    expiresIn: expiry,
   });
 
   return token;

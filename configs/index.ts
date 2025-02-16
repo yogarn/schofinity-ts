@@ -1,5 +1,6 @@
 import convict from 'convict';
 import dotenv from 'dotenv';
+import { number } from 'zod';
 
 dotenv.config();
 
@@ -42,6 +43,22 @@ const config = convict({
       format: String,
       default: 'schofinity',
       env: 'DB_NAME',
+    },
+  },
+  jwt: {
+    expiry: {
+      doc: 'Expiry Time',
+      format: number,
+      default: 3600,
+      env: 'JWT_EXPIRY',
+    },
+  },
+  bcrypt: {
+    saltRound: {
+      doc: 'Salt Round',
+      format: number,
+      default: 10,
+      env: 'BCRYPT_ROUND',
     },
   },
 });
