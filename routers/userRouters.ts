@@ -1,15 +1,16 @@
 import express from 'express';
-import { getAllUser, getUser, patchUser, register } from '../apps/users/entry-points/user';
+import { getAllUser, getUser, login, patchUser, register } from '../apps/users/entry-points/user';
+import { authMiddleware } from '../libraries/authenticator/auth';
 
 const userRouter = express.Router();
 userRouter
-  // .post('/login', login)
+  .post('/login', login)
   .post('/register', register)
-  .get('/:userId', getUser)
+  .get('/:userId', authMiddleware, getUser)
 
   // TODO: implement middleware to check user ownerships / admin privileges
-  .patch('/:userId', patchUser)
+  .patch('/:userId', authMiddleware, patchUser)
   // .delete('/:userId', deleteUser)
-  .get('/', getAllUser);
+  .get('/', authMiddleware, getAllUser);
 
 export default userRouter;

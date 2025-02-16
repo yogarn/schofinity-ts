@@ -1,11 +1,47 @@
 import { ulid } from 'ulid';
+import config from '../../../../configs';
 import { AppError } from '../../../../errors/AppError';
 import errorManagement from '../../../../errors/errorManagement';
-import { insert, selectAllUser, selectUser, update } from '../../data-access/user';
+import { hashPassword, verifyPassword } from '../../../../libraries/authenticator/bcrypt';
+import { signToken } from '../../../../libraries/authenticator/jwt';
+import { insert, selectAllUser, selectUser, selectUserByEmail, update } from '../../data-access/user';
+import type { LoginSchema } from '../dto/LoginRequest';
+import type { LoginResponse } from '../dto/LoginResponse';
 import type { PatchSchema } from '../dto/PatchRequest';
 import { type RegisterSchema } from '../dto/RegisterRequest';
 import type { UserResponse } from '../dto/UserResponse';
 import type { User } from '../entity/user';
+
+export const authenticate = async (loginRequest: LoginSchema): Promise<LoginResponse> => {
+  try {
+    const expiry = config.get('jwt.expiry');
+    const user = await selectUserByEmail(loginRequest.email);
+
+    if (!user) {
+      throw new AppError(errorManagement.commonErrors.NotFound, 'user not found', true);
+    }
+
+    const verifyStatus = await verifyPassword(loginRequest.password, user.password);
+    if (!verifyStatus) {
+      throw new AppError(errorManagement.bcryptErrors.InvalidPassword, 'invalid password', true);
+    }
+
+    const token = await signToken(user.id, 1);
+    const loginResponse: LoginResponse = {
+      email: loginRequest.email,
+      jwt: token,
+      expiredIn: expiry,
+    };
+
+    return loginResponse;
+  } catch (error: unknown) {
+    if (error instanceof AppError) {
+      throw error;
+    }
+
+    throw new AppError(errorManagement.commonErrors.InternalServerError, 'unexpected error occured while authenticate the user', false);
+  }
+};
 
 export const readUser = async (userId: string): Promise<UserResponse> => {
   try {
@@ -44,6 +80,9 @@ export const create = async (userRequest: RegisterSchema): Promise<UserResponse>
       createdAt: new Date(),
       updatedAt: new Date(),
     };
+
+    const hashedPassword = await hashPassword(user.password);
+    user.password = hashedPassword;
 
     const insertedUser = await insert(user);
     return userResponseBuilder(insertedUser);
