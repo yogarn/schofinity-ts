@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from 'express';
 import { LoginRequest, type LoginSchema } from '../domain/dto/LoginRequest';
 import { PatchRequest, type PatchSchema } from '../domain/dto/PatchRequest';
 import { RegisterRequest, type RegisterSchema } from '../domain/dto/RegisterRequest';
-import { authenticate, create, edit, readAllUser, readUser } from '../domain/services/user';
+import { authenticate, create, deleteUserService, edit, readAllUser, readUser } from '../domain/services/user';
 
 export const login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -58,4 +58,12 @@ export const patchUser = async (req: Request, res: Response, next: NextFunction)
   }
 };
 
-// export async function deleteUser(req, res) {}
+export const deleteUserHandler = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const userId: string = req.params['userId'];
+    const user = await deleteUserService(userId);
+    res.status(200).json(user);
+  } catch (error: unknown) {
+    return next(error);
+  }
+};

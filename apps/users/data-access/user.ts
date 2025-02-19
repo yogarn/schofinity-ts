@@ -6,7 +6,7 @@ import type { User } from '../domain/entity/user';
 export const selectUserByEmail = async (email: string): Promise<User> => {
   try {
     const [selectedUser] = await sql<User[]>`
-      SELECT full_name, username, password, email, created_at, updated_at FROM users
+      SELECT id, full_name, username, password, email, created_at, updated_at FROM users
       WHERE email = ${email}
     `;
 
@@ -27,7 +27,7 @@ export const selectUserByEmail = async (email: string): Promise<User> => {
 export const selectUser = async (userId: string): Promise<User> => {
   try {
     const [selectedUser] = await sql<User[]>`
-      SELECT full_name, username, password, email, created_at, updated_at FROM users
+      SELECT id, full_name, username, password, email, created_at, updated_at FROM users
       WHERE id = ${userId}
     `;
 
@@ -48,7 +48,7 @@ export const selectUser = async (userId: string): Promise<User> => {
 export const selectAllUser = async (): Promise<User[]> => {
   try {
     const selectedUsers = await sql<User[]>`
-      SELECT full_name, username, password, email, created_at, updated_at FROM users
+      SELECT id, full_name, username, password, email, created_at, updated_at FROM users
     `;
 
     if (!selectedUsers) {
@@ -70,7 +70,7 @@ export const insert = async (user: User): Promise<User> => {
     const [insertedUser] = await sql<User[]>`
         INSERT INTO users
             ${sql(user)}
-        RETURNING full_name, username, password, email, created_at, updated_at
+        RETURNING id, full_name, username, password, email, created_at, updated_at
         `;
 
     return insertedUser;
@@ -93,7 +93,7 @@ export const update = async (userId: string, user: Partial<User>): Promise<User>
       UPDATE users
       SET ${sql(user)}
       WHERE id = ${userId}
-      RETURNING full_name, username, password, email, created_at, updated_at
+      RETURNING id, full_name, username, password, email, created_at, updated_at
     `;
 
     if (!updatedUser) {
@@ -107,5 +107,27 @@ export const update = async (userId: string, user: Partial<User>): Promise<User>
     }
 
     throw new AppError(errorManagement.commonErrors.NotFound, 'unexpected error occured while updating the user', false);
+  }
+};
+
+export const deleteUser = async (userId: string): Promise<User> => {
+  try {
+    const [deletedUser] = await sql<User[]>`
+      DELETE FROM users
+      WHERE id = ${userId}
+      RETURNING id, full_name, username, password, email, created_at, updated_at
+    `;
+
+    if (!deletedUser) {
+      throw new AppError(errorManagement.commonErrors.NotFound, 'user not found', true);
+    }
+
+    return deletedUser;
+  } catch (error: unknown) {
+    if (error instanceof AppError) {
+      throw error;
+    }
+
+    throw new AppError(errorManagement.commonErrors.NotFound, 'unexpected error occured while deleting the user', false);
   }
 };

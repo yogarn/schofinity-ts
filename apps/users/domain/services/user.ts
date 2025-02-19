@@ -4,7 +4,7 @@ import { AppError } from '../../../../errors/AppError';
 import errorManagement from '../../../../errors/errorManagement';
 import { hashPassword, verifyPassword } from '../../../../libraries/authenticator/bcrypt';
 import { signToken } from '../../../../libraries/authenticator/jwt';
-import { insert, selectAllUser, selectUser, selectUserByEmail, update } from '../../data-access/user';
+import { deleteUser, insert, selectAllUser, selectUser, selectUserByEmail, update } from '../../data-access/user';
 import type { LoginSchema } from '../dto/LoginRequest';
 import type { LoginResponse } from '../dto/LoginResponse';
 import type { PatchSchema } from '../dto/PatchRequest';
@@ -108,8 +108,21 @@ export const edit = async (userId: string, userRequest: PatchSchema): Promise<Us
   }
 };
 
+export const deleteUserService = async (userId: string): Promise<UserResponse> => {
+  try {
+    const deletedUser = await deleteUser(userId);
+    return userResponseBuilder(deletedUser);
+  } catch (error: unknown) {
+    if (error instanceof AppError) {
+      throw error;
+    }
+    throw new AppError(errorManagement.commonErrors.InternalServerError, 'unexpected error occured while deleting the user', false);
+  }
+};
+
 const userResponseBuilder = (userRequest: User): UserResponse => {
   return {
+    id: userRequest.id,
     username: userRequest.username,
     fullName: userRequest.fullName,
     email: userRequest.email,
