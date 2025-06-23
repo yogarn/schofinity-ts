@@ -3,14 +3,14 @@ import { AppError } from "../../../../errors/AppError";
 import errorManagement from "../../../../errors/errorManagement";
 import { verifyPassword } from "../../../../libraries/authenticator/bcrypt";
 import { signToken } from "../../../../libraries/authenticator/jwt";
-import { selectUserByEmail } from "../../../users/data-access/user";
+import * as userDataAccess from "../../../users/data-access/user";
 import type { LoginSchema } from "../../../users/domain/dto/LoginRequest";
 import type { LoginResponse } from "../../../users/domain/dto/LoginResponse";
 
 export async function authenticate(loginRequest: LoginSchema): Promise<LoginResponse> {
   try {
     const expiry = config.get('jwt.expiry');
-    const user = await selectUserByEmail(loginRequest.email);
+    const user = await userDataAccess.getByEmail(loginRequest.email);
 
     if (!user) {
       throw new AppError(errorManagement.commonErrors.NotFound, 'user not found', true);

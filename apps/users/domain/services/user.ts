@@ -2,15 +2,15 @@ import { ulid } from 'ulid';
 import { AppError } from '../../../../errors/AppError';
 import errorManagement from '../../../../errors/errorManagement';
 import { hashPassword } from '../../../../libraries/authenticator/bcrypt';
-import { deleteUser, insert, selectAllUser, selectUser, update } from '../../data-access/user';
+import * as userDataAccess from '../../data-access/user';
 import type { PatchSchema } from '../dto/PatchRequest';
 import { type RegisterSchema } from '../dto/RegisterRequest';
 import type { UserResponse } from '../dto/UserResponse';
 import type { User } from '../entity/user';
 
-export async function readUser(userId: string): Promise<UserResponse> {
+export async function get(userId: string): Promise<UserResponse> {
   try {
-    const user = await selectUser(userId);
+    const user = await userDataAccess.get(userId);
     return userResponseBuilder(user);
   } catch (error: unknown) {
     if (error instanceof AppError) {
@@ -21,9 +21,9 @@ export async function readUser(userId: string): Promise<UserResponse> {
   }
 };
 
-export async function readAllUser(): Promise<UserResponse[]> {
+export async function getAll(): Promise<UserResponse[]> {
   try {
-    const users = await selectAllUser();
+    const users = await userDataAccess.getAll();
     const usersResponse = users.map((user) => {
       return userResponseBuilder(user);
     });
@@ -49,7 +49,7 @@ export async function create(userRequest: RegisterSchema): Promise<UserResponse>
     const hashedPassword = await hashPassword(user.password);
     user.password = hashedPassword;
 
-    const insertedUser = await insert(user);
+    const insertedUser = await userDataAccess.create(user);
     return userResponseBuilder(insertedUser);
   } catch (error) {
     if (error instanceof AppError) {
@@ -60,7 +60,7 @@ export async function create(userRequest: RegisterSchema): Promise<UserResponse>
   }
 };
 
-export async function edit(userId: string, userRequest: PatchSchema): Promise<UserResponse> {
+export async function update(userId: string, userRequest: PatchSchema): Promise<UserResponse> {
   try {
     const user: Partial<User> = { ...userRequest, updatedAt: new Date() };
 
@@ -69,7 +69,7 @@ export async function edit(userId: string, userRequest: PatchSchema): Promise<Us
       user.password = hashedPassword;
     }
 
-    const updatedUser = await update(userId, user);
+    const updatedUser = await userDataAccess.update(userId, user);
     return userResponseBuilder(updatedUser);
   } catch (error: unknown) {
     if (error instanceof AppError) {
@@ -79,9 +79,9 @@ export async function edit(userId: string, userRequest: PatchSchema): Promise<Us
   }
 };
 
-export async function deleteUserService(userId: string): Promise<UserResponse> {
+export async function remove(userId: string): Promise<UserResponse> {
   try {
-    const deletedUser = await deleteUser(userId);
+    const deletedUser = await userDataAccess.remove(userId);
     return userResponseBuilder(deletedUser);
   } catch (error: unknown) {
     if (error instanceof AppError) {

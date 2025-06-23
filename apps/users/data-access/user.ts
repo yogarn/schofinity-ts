@@ -3,7 +3,7 @@ import { AppError } from '../../../errors/AppError';
 import errorManagement from '../../../errors/errorManagement';
 import type { User } from '../domain/entity/user';
 
-export async function selectUserByEmail(email: string): Promise<User> {
+export async function getByEmail(email: string): Promise<User> {
   try {
     const [selectedUser] = await sql<User[]>`
       SELECT id, full_name, username, password, email, created_at, updated_at FROM users
@@ -24,7 +24,7 @@ export async function selectUserByEmail(email: string): Promise<User> {
   }
 };
 
-export async function selectUser(userId: string): Promise<User> {
+export async function get(userId: string): Promise<User> {
   try {
     const [selectedUser] = await sql<User[]>`
       SELECT id, full_name, username, password, email, created_at, updated_at FROM users
@@ -45,7 +45,7 @@ export async function selectUser(userId: string): Promise<User> {
   }
 };
 
-export async function selectAllUser(): Promise<User[]> {
+export async function getAll(): Promise<User[]> {
   try {
     const selectedUsers = await sql<User[]>`
       SELECT id, full_name, username, password, email, created_at, updated_at FROM users
@@ -65,7 +65,7 @@ export async function selectAllUser(): Promise<User[]> {
   }
 };
 
-export async function insert(user: User): Promise<User> {
+export async function create(user: User): Promise<User> {
   try {
     const [insertedUser] = await sql<User[]>`
         INSERT INTO users
@@ -110,7 +110,7 @@ export async function update(userId: string, user: Partial<User>): Promise<User>
   }
 };
 
-export async function deleteUser(userId: string): Promise<User> {
+export async function remove(userId: string): Promise<User> {
   try {
     const [deletedUser] = await sql<User[]>`
       DELETE FROM users
