@@ -4,7 +4,7 @@ import { PatchRequest, type PatchSchema } from '../domain/dto/PatchRequest';
 import { RegisterRequest, type RegisterSchema } from '../domain/dto/RegisterRequest';
 import { authenticate, create, deleteUserService, edit, readAllUser, readUser } from '../domain/services/user';
 
-export const login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export async function login(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const loginRequest: LoginSchema = LoginRequest.parse(req.body);
     const response = await authenticate(loginRequest);
@@ -14,7 +14,7 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
   }
 };
 
-export const register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export async function register(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const userRequest: RegisterSchema = RegisterRequest.parse(req.body);
     const user = await create(userRequest);
@@ -25,7 +25,7 @@ export const register = async (req: Request, res: Response, next: NextFunction):
   }
 };
 
-export const getAllUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export async function getAllUser(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const users = await readAllUser();
     res.status(200).json(users);
@@ -35,7 +35,7 @@ export const getAllUser = async (req: Request, res: Response, next: NextFunction
   }
 };
 
-export const getUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export async function getUser(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const userId: string = req.params['userId'];
     const user = await readUser(userId);
@@ -46,7 +46,7 @@ export const getUser = async (req: Request, res: Response, next: NextFunction): 
   }
 };
 
-export const patchUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export async function patchUser(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const userId: string = req.params['userId'];
     const userRequest: PatchSchema = PatchRequest.parse(req.body);
@@ -58,7 +58,7 @@ export const patchUser = async (req: Request, res: Response, next: NextFunction)
   }
 };
 
-export const deleteUserHandler = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export async function deleteUserHandler(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const userId: string = req.params['userId'];
     const user = await deleteUserService(userId);

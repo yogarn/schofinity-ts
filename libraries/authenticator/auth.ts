@@ -4,7 +4,7 @@ import { AppError } from '../../errors/AppError';
 import errorManagement from '../../errors/errorManagement';
 import { verifyToken } from './jwt';
 
-export const authMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export async function authMiddleware(req: Request, res: Response, next: NextFunction): Promise<void> {
   const authHeader: string | undefined = req.headers.authorization;
 
   try {

@@ -12,7 +12,7 @@ import { type RegisterSchema } from '../dto/RegisterRequest';
 import type { UserResponse } from '../dto/UserResponse';
 import type { User } from '../entity/user';
 
-export const authenticate = async (loginRequest: LoginSchema): Promise<LoginResponse> => {
+export async function authenticate(loginRequest: LoginSchema): Promise<LoginResponse> {
   try {
     const expiry = config.get('jwt.expiry');
     const user = await selectUserByEmail(loginRequest.email);
@@ -43,7 +43,7 @@ export const authenticate = async (loginRequest: LoginSchema): Promise<LoginResp
   }
 };
 
-export const readUser = async (userId: string): Promise<UserResponse> => {
+export async function readUser(userId: string): Promise<UserResponse> {
   try {
     const user = await selectUser(userId);
     return userResponseBuilder(user);
@@ -56,7 +56,7 @@ export const readUser = async (userId: string): Promise<UserResponse> => {
   }
 };
 
-export const readAllUser = async (): Promise<UserResponse[]> => {
+export async function readAllUser(): Promise<UserResponse[]> {
   try {
     const users = await selectAllUser();
     const usersResponse = users.map((user) => {
@@ -72,7 +72,7 @@ export const readAllUser = async (): Promise<UserResponse[]> => {
   }
 };
 
-export const create = async (userRequest: RegisterSchema): Promise<UserResponse> => {
+export async function create(userRequest: RegisterSchema): Promise<UserResponse> {
   try {
     const user: User = {
       id: ulid(),
@@ -95,7 +95,7 @@ export const create = async (userRequest: RegisterSchema): Promise<UserResponse>
   }
 };
 
-export const edit = async (userId: string, userRequest: PatchSchema): Promise<UserResponse> => {
+export async function edit(userId: string, userRequest: PatchSchema): Promise<UserResponse> {
   try {
     const user: Partial<User> = { ...userRequest, updatedAt: new Date() };
 
@@ -114,7 +114,7 @@ export const edit = async (userId: string, userRequest: PatchSchema): Promise<Us
   }
 };
 
-export const deleteUserService = async (userId: string): Promise<UserResponse> => {
+export async function deleteUserService(userId: string): Promise<UserResponse> {
   try {
     const deletedUser = await deleteUser(userId);
     return userResponseBuilder(deletedUser);

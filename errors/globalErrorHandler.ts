@@ -5,7 +5,7 @@ import { generateTraceId } from '../libraries/logger/tracer';
 import logger from '../libraries/logger/winston';
 import { AppError } from './AppError';
 
-export const globalErrorHandler = async (err: unknown, req: Request, res: Response, _next: NextFunction): Promise<void> => {
+export async function globalErrorHandler(err: unknown, req: Request, res: Response, _next: NextFunction): Promise<void> {
   const traceId = generateTraceId();
 
   if (err instanceof ZodError) {

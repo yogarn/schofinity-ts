@@ -17,7 +17,7 @@ const sql = postgres({
   transform: postgres.camel,
 });
 
-export const connectToDatabase = async (): Promise<void> => {
+export async function connectToDatabase(): Promise<void> {
   try {
     await sql`SELECT 1`;
     logger.info('Database connection successful');

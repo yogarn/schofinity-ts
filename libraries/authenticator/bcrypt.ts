@@ -5,7 +5,7 @@ import errorManagement from '../../errors/errorManagement';
 
 const saltRounds = config.get('bcrypt.saltRound');
 
-export const hashPassword = async (plainText: string): Promise<string> => {
+export async function hashPassword(plainText: string): Promise<string> {
   try {
     const hashedPassword = await bcrypt.hash(plainText, saltRounds);
     return hashedPassword;
@@ -18,7 +18,7 @@ export const hashPassword = async (plainText: string): Promise<string> => {
   }
 };
 
-export const verifyPassword = async (plainText: string, hashedPassword: string): Promise<boolean> => {
+export async function verifyPassword(plainText: string, hashedPassword: string): Promise<boolean> {
   try {
     const result = await bcrypt.compare(plainText, hashedPassword);
     return result;
