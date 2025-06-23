@@ -20,7 +20,7 @@ export const selectUserByEmail = async (email: string): Promise<User> => {
       throw error;
     }
 
-    throw new AppError(errorManagement.commonErrors.InternalServerError, 'unexpected error while selecting the user', false);
+    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error while selecting the user: ${error}`, false);
   }
 };
 
@@ -41,7 +41,7 @@ export const selectUser = async (userId: string): Promise<User> => {
       throw error;
     }
 
-    throw new AppError(errorManagement.commonErrors.InternalServerError, 'unexpected error while selecting the user', false);
+    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error while selecting the user: ${error}`, false);
   }
 };
 
@@ -61,7 +61,7 @@ export const selectAllUser = async (): Promise<User[]> => {
       throw error;
     }
 
-    throw new AppError(errorManagement.commonErrors.InternalServerError, 'unexpected error while selecting the user', false);
+    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error while selecting the user: ${error}`, false);
   }
 };
 
@@ -83,7 +83,7 @@ export const insert = async (user: User): Promise<User> => {
       }
     }
 
-    throw new AppError(errorManagement.commonErrors.InternalServerError, 'unexpected error occured while inserting the user', false);
+    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occured while inserting the user: ${error}`, false);
   }
 };
 
@@ -106,7 +106,7 @@ export const update = async (userId: string, user: Partial<User>): Promise<User>
       throw error;
     }
 
-    throw new AppError(errorManagement.commonErrors.NotFound, 'unexpected error occured while updating the user', false);
+    throw new AppError(errorManagement.commonErrors.NotFound, `unexpected error occured while updating the user: ${error}`, false);
   }
 };
 
@@ -128,6 +128,6 @@ export const deleteUser = async (userId: string): Promise<User> => {
       throw error;
     }
 
-    throw new AppError(errorManagement.commonErrors.NotFound, 'unexpected error occured while deleting the user', false);
+    throw new AppError(errorManagement.commonErrors.NotFound, `unexpected error occured while deleting the user: ${error}`, false);
   }
 };

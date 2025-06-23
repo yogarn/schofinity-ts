@@ -39,7 +39,7 @@ export const authenticate = async (loginRequest: LoginSchema): Promise<LoginResp
       throw error;
     }
 
-    throw new AppError(errorManagement.commonErrors.InternalServerError, 'unexpected error occured while authenticate the user', false);
+    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occured while authenticate the user: ${error}`, false);
   }
 };
 
@@ -52,7 +52,7 @@ export const readUser = async (userId: string): Promise<UserResponse> => {
       throw error;
     }
 
-    throw new AppError(errorManagement.commonErrors.InternalServerError, 'unexpected error occured while reading the user', false);
+    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occured while reading the user: ${error}`, false);
   }
 };
 
@@ -68,7 +68,7 @@ export const readAllUser = async (): Promise<UserResponse[]> => {
       throw error;
     }
 
-    throw new AppError(errorManagement.commonErrors.InternalServerError, 'unexpected error occured while reading all users', false);
+    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occured while reading all users: ${error}`, false);
   }
 };
 
@@ -91,7 +91,7 @@ export const create = async (userRequest: RegisterSchema): Promise<UserResponse>
       throw error;
     }
 
-    throw new AppError(errorManagement.commonErrors.InternalServerError, 'unexpected error occured while creating the user', false);
+    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occured while creating the user: ${error}`, false);
   }
 };
 
@@ -110,7 +110,7 @@ export const edit = async (userId: string, userRequest: PatchSchema): Promise<Us
     if (error instanceof AppError) {
       throw error;
     }
-    throw new AppError(errorManagement.commonErrors.InternalServerError, 'unexpected error occured while editing the user', false);
+    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occured while editing the user: ${error}`, false);
   }
 };
 
@@ -122,7 +122,7 @@ export const deleteUserService = async (userId: string): Promise<UserResponse> =
     if (error instanceof AppError) {
       throw error;
     }
-    throw new AppError(errorManagement.commonErrors.InternalServerError, 'unexpected error occured while deleting the user', false);
+    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occured while deleting the user: ${error}`, false);
   }
 };
 
