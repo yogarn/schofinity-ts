@@ -98,6 +98,12 @@ export const create = async (userRequest: RegisterSchema): Promise<UserResponse>
 export const edit = async (userId: string, userRequest: PatchSchema): Promise<UserResponse> => {
   try {
     const user: Partial<User> = { ...userRequest, updatedAt: new Date() };
+
+    if (user.password) {
+      const hashedPassword = await hashPassword(user.password);
+      user.password = hashedPassword;
+    }
+
     const updatedUser = await update(userId, user);
     return userResponseBuilder(updatedUser);
   } catch (error: unknown) {
