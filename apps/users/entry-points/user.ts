@@ -1,29 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
-import { LoginRequest, type LoginSchema } from '../domain/dto/LoginRequest';
 import { PatchRequest, type PatchSchema } from '../domain/dto/PatchRequest';
-import { RegisterRequest, type RegisterSchema } from '../domain/dto/RegisterRequest';
-import { authenticate, create, deleteUserService, edit, readAllUser, readUser } from '../domain/services/user';
-
-export async function login(req: Request, res: Response, next: NextFunction): Promise<void> {
-  try {
-    const loginRequest: LoginSchema = LoginRequest.parse(req.body);
-    const response = await authenticate(loginRequest);
-    res.status(200).json(response);
-  } catch (error: unknown) {
-    return next(error);
-  }
-};
-
-export async function register(req: Request, res: Response, next: NextFunction): Promise<void> {
-  try {
-    const userRequest: RegisterSchema = RegisterRequest.parse(req.body);
-    const user = await create(userRequest);
-    res.status(201).json(user);
-    return;
-  } catch (error) {
-    return next(error);
-  }
-};
+import { deleteUserService, edit, readAllUser, readUser } from '../domain/services/user';
 
 export async function getAllUser(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
