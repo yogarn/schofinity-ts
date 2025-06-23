@@ -4,9 +4,9 @@ import logger from '../libraries/logger/winston';
 
 const dbHost = config.get('db.host');
 const dbPort = config.get('db.port');
-const dbUsername = config.get('db.username');
+const dbUsername = config.get('db.user');
 const dbPassword = config.get('db.password');
-const dbName = config.get('db.name');
+const dbName = config.get('db.database');
 
 const sql = postgres({
   host: dbHost,

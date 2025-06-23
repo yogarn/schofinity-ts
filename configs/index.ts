@@ -24,7 +24,7 @@ const config = convict({
       default: 5432,
       env: 'DB_PORT',
     },
-    username: {
+    user: {
       doc: 'Database username',
       format: String,
       default: '',
@@ -38,7 +38,7 @@ const config = convict({
       env: 'DB_PASSWORD',
       sensitive: true,
     },
-    name: {
+    database: {
       doc: 'Database name',
       format: String,
       default: 'schofinity',
