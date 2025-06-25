@@ -1,7 +1,7 @@
+import * as userDataAccess from "@/apps/users/data-access/user";
+import type { User } from "@/apps/users/domain/entity/user";
 import { afterEach, describe, expect, mock, test } from "bun:test";
 import { ulid } from 'ulid';
-import * as userDataAccess from "../../../../apps/users/data-access/user";
-import type { User } from "../../../../apps/users/domain/entity/user";
 
 const id = ulid();
 const createdAt = new Date();

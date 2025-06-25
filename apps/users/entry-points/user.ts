@@ -1,6 +1,6 @@
+import { PatchRequest, type PatchSchema } from '@/apps/users/domain/dto/PatchRequest';
+import * as userService from '@/apps/users/domain/services/user';
 import type { NextFunction, Request, Response } from 'express';
-import { PatchRequest, type PatchSchema } from '../domain/dto/PatchRequest';
-import * as userService from '../domain/services/user';
 
 export async function getAll(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {

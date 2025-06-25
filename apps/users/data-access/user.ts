@@ -1,7 +1,7 @@
-import sql from '../../../databases/postgres';
-import { AppError } from '../../../errors/AppError';
-import errorManagement from '../../../errors/errorManagement';
-import type { User } from '../domain/entity/user';
+import type { User } from '@/apps/users/domain/entity/user';
+import sql from '@/databases/postgres';
+import { AppError } from '@/errors/AppError';
+import errorManagement from '@/errors/errorManagement';
 
 export async function getByEmail(email: string): Promise<User> {
   try {

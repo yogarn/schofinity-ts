@@ -1,8 +1,8 @@
+import { AppError } from '@/errors/AppError';
+import errorManagement from '@/errors/errorManagement';
+import { verifyToken } from '@/libraries/authenticator/jwt';
 import type { NextFunction, Request, Response } from 'express';
 import type { JwtPayload } from 'jsonwebtoken';
-import { AppError } from '../../errors/AppError';
-import errorManagement from '../../errors/errorManagement';
-import { verifyToken } from './jwt';
 
 export async function authMiddleware(req: Request, res: Response, next: NextFunction): Promise<void> {
   const authHeader: string | undefined = req.headers.authorization;

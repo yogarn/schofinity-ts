@@ -1,6 +1,6 @@
+import config from '@/configs';
 import fs from 'fs';
 import jwt, { type JwtPayload } from 'jsonwebtoken';
-import config from '../../configs';
 
 const expiry = config.get('jwt.expiry');
 

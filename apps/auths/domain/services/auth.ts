@@ -1,11 +1,11 @@
-import config from "../../../../configs";
-import { AppError } from "../../../../errors/AppError";
-import errorManagement from "../../../../errors/errorManagement";
-import { verifyPassword } from "../../../../libraries/authenticator/bcrypt";
-import { signToken } from "../../../../libraries/authenticator/jwt";
-import * as userDataAccess from "../../../users/data-access/user";
-import type { LoginSchema } from "../../../users/domain/dto/LoginRequest";
-import type { LoginResponse } from "../../../users/domain/dto/LoginResponse";
+import * as userDataAccess from "@/apps/users/data-access/user";
+import type { LoginSchema } from "@/apps/users/domain/dto/LoginRequest";
+import type { LoginResponse } from "@/apps/users/domain/dto/LoginResponse";
+import config from "@/configs";
+import { AppError } from "@/errors/AppError";
+import errorManagement from "@/errors/errorManagement";
+import { verifyPassword } from "@/libraries/authenticator/bcrypt";
+import { signToken } from "@/libraries/authenticator/jwt";
 
 export async function authenticate(loginRequest: LoginSchema): Promise<LoginResponse> {
   try {

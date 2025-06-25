@@ -1,5 +1,5 @@
+import { login, register } from '@/apps/auths/entry-points/auth';
 import express from 'express';
-import { login, register } from '../apps/auths/entry-points/auth';
 
 const authRouter = express.Router();
 authRouter

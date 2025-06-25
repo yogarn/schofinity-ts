@@ -1,6 +1,6 @@
+import config from '@/configs';
+import logger from '@/libraries/logger/winston';
 import postgres from 'postgres';
-import config from '../configs';
-import logger from '../libraries/logger/winston';
 
 const dbHost = config.get('db.host');
 const dbPort = config.get('db.port');

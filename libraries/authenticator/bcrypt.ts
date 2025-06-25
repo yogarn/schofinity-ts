@@ -1,7 +1,7 @@
+import config from '@/configs';
+import { AppError } from '@/errors/AppError';
+import errorManagement from '@/errors/errorManagement';
 import bcrypt from 'bcrypt';
-import config from '../../configs';
-import { AppError } from '../../errors/AppError';
-import errorManagement from '../../errors/errorManagement';
 
 const saltRounds = config.get('bcrypt.saltRound');
 

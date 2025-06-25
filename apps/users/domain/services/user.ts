@@ -1,12 +1,12 @@
+import * as userDataAccess from '@/apps/users/data-access/user';
+import type { PatchSchema } from '@/apps/users/domain/dto/PatchRequest';
+import { type RegisterSchema } from '@/apps/users/domain/dto/RegisterRequest';
+import type { UserResponse } from '@/apps/users/domain/dto/UserResponse';
+import type { User } from '@/apps/users/domain/entity/user';
+import { AppError } from '@/errors/AppError';
+import errorManagement from '@/errors/errorManagement';
+import { hashPassword } from '@/libraries/authenticator/bcrypt';
 import { ulid } from 'ulid';
-import { AppError } from '../../../../errors/AppError';
-import errorManagement from '../../../../errors/errorManagement';
-import { hashPassword } from '../../../../libraries/authenticator/bcrypt';
-import * as userDataAccess from '../../data-access/user';
-import type { PatchSchema } from '../dto/PatchRequest';
-import { type RegisterSchema } from '../dto/RegisterRequest';
-import type { UserResponse } from '../dto/UserResponse';
-import type { User } from '../entity/user';
 
 export async function get(userId: string): Promise<UserResponse> {
   try {

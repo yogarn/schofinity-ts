@@ -1,8 +1,8 @@
+import * as authService from "@/apps/auths/domain/services/auth";
+import { type LoginSchema, LoginRequest } from "@/apps/users/domain/dto/LoginRequest";
+import { type RegisterSchema, RegisterRequest } from "@/apps/users/domain/dto/RegisterRequest";
+import * as userService from "@/apps/users/domain/services/user";
 import type { NextFunction, Request, Response } from "express";
-import { type LoginSchema, LoginRequest } from "../../users/domain/dto/LoginRequest";
-import { type RegisterSchema, RegisterRequest } from "../../users/domain/dto/RegisterRequest";
-import * as userService from "../../users/domain/services/user";
-import * as authService from "../domain/services/auth";
 
 export async function login(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {

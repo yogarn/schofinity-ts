@@ -1,6 +1,6 @@
+import * as userEntryPoint from '@/apps/users/entry-points/user';
+import * as authMiddleware from '@/libraries/authenticator/auth';
 import express from 'express';
-import * as userEntryPoint from '../apps/users/entry-points/user';
-import * as authMiddleware from '../libraries/authenticator/auth';
 
 const userRouter = express.Router();
 userRouter

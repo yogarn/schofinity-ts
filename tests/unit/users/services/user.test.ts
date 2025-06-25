@@ -1,13 +1,13 @@
+import * as userDataAccess from '@/apps/users/data-access/user';
+import type { PatchSchema } from '@/apps/users/domain/dto/PatchRequest';
+import type { RegisterSchema } from '@/apps/users/domain/dto/RegisterRequest';
+import type { UserResponse } from '@/apps/users/domain/dto/UserResponse';
+import type { User } from '@/apps/users/domain/entity/user';
+import * as userService from '@/apps/users/domain/services/user';
+import { AppError } from '@/errors/AppError';
+import errorManagement from '@/errors/errorManagement';
 import { afterEach, describe, expect, mock, spyOn, test } from 'bun:test';
 import { ulid } from 'ulid';
-import * as userDataAccess from '../../../../apps/users/data-access/user';
-import type { PatchSchema } from '../../../../apps/users/domain/dto/PatchRequest';
-import type { RegisterSchema } from '../../../../apps/users/domain/dto/RegisterRequest';
-import type { UserResponse } from '../../../../apps/users/domain/dto/UserResponse';
-import type { User } from '../../../../apps/users/domain/entity/user';
-import * as userService from '../../../../apps/users/domain/services/user';
-import { AppError } from '../../../../errors/AppError';
-import errorManagement from '../../../../errors/errorManagement';
 
 const id = ulid();
 const createdAt = new Date();

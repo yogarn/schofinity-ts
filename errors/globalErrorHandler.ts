@@ -1,9 +1,9 @@
+import { AppError } from '@/errors/AppError';
+import { gracefulShutdown } from '@/index';
+import { generateTraceId } from '@/libraries/logger/tracer';
+import logger from '@/libraries/logger/winston';
 import type { NextFunction, Request, Response } from 'express';
 import { ZodError } from 'zod';
-import { gracefulShutdown } from '..';
-import { generateTraceId } from '../libraries/logger/tracer';
-import logger from '../libraries/logger/winston';
-import { AppError } from './AppError';
 
 export async function globalErrorHandler(err: unknown, req: Request, res: Response, _next: NextFunction): Promise<void> {
   const traceId = generateTraceId();
