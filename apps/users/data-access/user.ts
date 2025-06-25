@@ -20,7 +20,7 @@ export async function getByEmail(email: string): Promise<User> {
       throw error;
     }
 
-    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occured while selecting the user: ${error}`, false);
+    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occurred while getting the user: ${error}`, false);
   }
 };
 
@@ -41,7 +41,7 @@ export async function get(userId: string): Promise<User> {
       throw error;
     }
 
-    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occured while selecting the user: ${error}`, false);
+    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occurred while getting the user: ${error}`, false);
   }
 };
 
@@ -61,7 +61,7 @@ export async function getAll(): Promise<User[]> {
       throw error;
     }
 
-    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occured while selecting the user: ${error}`, false);
+    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occurred while getting the users: ${error}`, false);
   }
 };
 
@@ -83,7 +83,7 @@ export async function create(user: User): Promise<User> {
       }
     }
 
-    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occured while inserting the user: ${error}`, false);
+    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occurred while creating the user: ${error}`, false);
   }
 };
 
@@ -106,7 +106,7 @@ export async function update(userId: string, user: Partial<User>): Promise<User>
       throw error;
     }
 
-    throw new AppError(errorManagement.commonErrors.NotFound, `unexpected error occured while updating the user: ${error}`, false);
+    throw new AppError(errorManagement.commonErrors.NotFound, `unexpected error occurred while updating the user: ${error}`, false);
   }
 };
 
@@ -128,6 +128,6 @@ export async function remove(userId: string): Promise<User> {
       throw error;
     }
 
-    throw new AppError(errorManagement.commonErrors.NotFound, `unexpected error occured while deleting the user: ${error}`, false);
+    throw new AppError(errorManagement.commonErrors.NotFound, `unexpected error occurred while removing the user: ${error}`, false);
   }
 };
