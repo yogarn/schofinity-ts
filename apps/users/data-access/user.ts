@@ -51,7 +51,7 @@ export async function getAll(): Promise<User[]> {
       SELECT id, full_name, username, password, email, created_at, updated_at FROM users
     `;
 
-    if (!selectedUsers) {
+    if (selectedUsers.length === 0) {
       throw new AppError(errorManagement.commonErrors.NotFound, 'user not found', true);
     }
 
