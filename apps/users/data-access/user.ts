@@ -20,7 +20,7 @@ export async function getByEmail(email: string): Promise<User> {
       throw error;
     }
 
-    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error while selecting the user: ${error}`, false);
+    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occured while selecting the user: ${error}`, false);
   }
 };
 
@@ -41,7 +41,7 @@ export async function get(userId: string): Promise<User> {
       throw error;
     }
 
-    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error while selecting the user: ${error}`, false);
+    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occured while selecting the user: ${error}`, false);
   }
 };
 
@@ -61,7 +61,7 @@ export async function getAll(): Promise<User[]> {
       throw error;
     }
 
-    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error while selecting the user: ${error}`, false);
+    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occured while selecting the user: ${error}`, false);
   }
 };
 

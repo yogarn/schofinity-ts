@@ -63,7 +63,7 @@ describe('User Data Access Tests', () => {
       return { default: sql };
     });
 
-    await expect(userDataAccess.getByEmail(user.email)).rejects.toThrow('unexpected error while selecting the user: Error: internal server error');
+    await expect(userDataAccess.getByEmail(user.email)).rejects.toThrow('unexpected error occured while selecting the user: Error: internal server error');
   });
 
   test('get user', async () => {
@@ -107,7 +107,7 @@ describe('User Data Access Tests', () => {
       return { default: sql };
     });
 
-    await expect(userDataAccess.get(user.id)).rejects.toThrow('unexpected error while selecting the user: Error: internal server error');
+    await expect(userDataAccess.get(user.id)).rejects.toThrow('unexpected error occured while selecting the user: Error: internal server error');
   });
 
   test('get all user', async () => {
@@ -151,7 +151,7 @@ describe('User Data Access Tests', () => {
       return { default: sql };
     });
 
-    await expect(userDataAccess.getAll()).rejects.toThrow('unexpected error while selecting the user: Error: internal server error');
+    await expect(userDataAccess.getAll()).rejects.toThrow('unexpected error occured while selecting the user: Error: internal server error');
   });
 
   test('create user', async () => {
@@ -182,14 +182,14 @@ describe('User Data Access Tests', () => {
   test('create user throws non-Conflict code error', async () => {
     mock.module('../../../../databases/postgres', () => {
       const sql = (strings: TemplateStringsArray, ...values: any[]) => {
-        const err = new Error('constraint failed') as any;
+        const err = new Error('internal server error') as any;
         err.code = '00000';
         throw err;
       };
       return { default: sql };
     });
 
-    await expect(userDataAccess.create(user)).rejects.toThrow('username or email already used');
+    await expect(userDataAccess.create(user)).rejects.toThrow('unexpected error occured while inserting the user: Error: internal server error');
   });
 
   test('create user throws unknown error', async () => {
@@ -236,7 +236,7 @@ describe('User Data Access Tests', () => {
       return { default: sql };
     });
 
-    await expect(userDataAccess.update(user.id, user)).rejects.toThrow('unexpected error while selecting the user: Error: internal server error');
+    await expect(userDataAccess.update(user.id, user)).rejects.toThrow('unexpected error occured while updating the user: Error: internal server error');
   });
 
   test('remove user', async () => {
@@ -270,6 +270,6 @@ describe('User Data Access Tests', () => {
       return { default: sql };
     });
 
-    await expect(userDataAccess.remove(user.id)).rejects.toThrow('unexpected error while selecting the user: Error: internal server error');
+    await expect(userDataAccess.remove(user.id)).rejects.toThrow('unexpected error occured while deleting the user: Error: internal server error');
   });
 });
