@@ -12,16 +12,12 @@ export async function authenticate(loginRequest: LoginSchema): Promise<LoginResp
     const expiry = config.get('jwt.expiry');
     const user = await userDataAccess.getByEmail(loginRequest.email);
 
-    if (!user) {
-      throw new AppError(errorManagement.commonErrors.NotFound, 'user not found', true);
-    }
-
     const verifyStatus = await verifyPassword(loginRequest.password, user.password);
     if (!verifyStatus) {
-      throw new AppError(errorManagement.bcryptErrors.InvalidPassword, 'invalid password', true);
+      throw new AppError(errorManagement.bcryptErrors.InvalidCredentials, 'invalid credentials', true);
     }
 
-    const token = await signToken(user.id, 1);
+    const token = signToken(user.id, 1);
     const loginResponse: LoginResponse = {
       email: loginRequest.email,
       jwt: token,
@@ -31,9 +27,13 @@ export async function authenticate(loginRequest: LoginSchema): Promise<LoginResp
     return loginResponse;
   } catch (error: unknown) {
     if (error instanceof AppError) {
+      if (error.statusCode === 404) {
+        throw new AppError(errorManagement.bcryptErrors.InvalidCredentials, 'invalid credentials', true);
+      }
+
       throw error;
     }
 
-    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occured while authenticate the user: ${error}`, false);
+    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occurred while authenticate the user: ${error}`, false);
   }
 };
