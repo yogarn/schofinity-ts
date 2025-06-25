@@ -62,12 +62,12 @@ describe('User Service Tests', () => {
         throw new Error('something went wrong')
       });
 
-    await expect(userService.get(id)).rejects.toThrow('unexpected error occured while reading the user: Error: something went wrong');
+    await expect(userService.get(id)).rejects.toThrow('unexpected error occurred while reading the user: Error: something went wrong');
     expect(getSpy).toHaveBeenCalled();
   });
 
   test('get user throws AppError', async () => {
-    const appError = new AppError(errorManagement.commonErrors.InternalServerError, 'unexpected error occured while reading the user', false);
+    const appError = new AppError(errorManagement.commonErrors.InternalServerError, 'unexpected error occurred while reading the user', false);
 
     const getSpy = spyOn(userDataAccess, 'get')
       .mockImplementation(async (userId: string) => {
@@ -124,12 +124,12 @@ describe('User Service Tests', () => {
         throw new Error('something went wrong')
       });
 
-    await expect(userService.getAll()).rejects.toThrow('unexpected error occured while reading all users: Error: something went wrong');
+    await expect(userService.getAll()).rejects.toThrow('unexpected error occurred while reading all users: Error: something went wrong');
     expect(getSpy).toHaveBeenCalled();
   });
 
   test('get all user throws AppError', async () => {
-    const appError = new AppError(errorManagement.commonErrors.InternalServerError, 'unexpected error occured while reading all users', false);
+    const appError = new AppError(errorManagement.commonErrors.InternalServerError, 'unexpected error occurred while reading all users', false);
 
     const getSpy = spyOn(userDataAccess, 'getAll')
       .mockImplementation(async () => {
@@ -185,12 +185,12 @@ describe('User Service Tests', () => {
       username: 'johndoe',
     };
 
-    await expect(userService.create(user)).rejects.toThrow('unexpected error occured while creating the user: Error: something went wrong');
+    await expect(userService.create(user)).rejects.toThrow('unexpected error occurred while creating the user: Error: something went wrong');
     expect(getSpy).toHaveBeenCalled();
   });
 
   test('create user throws AppError', async () => {
-    const appError = new AppError(errorManagement.commonErrors.InternalServerError, 'unexpected error occured while creating the user', false);
+    const appError = new AppError(errorManagement.commonErrors.InternalServerError, 'unexpected error occurred while creating the user', false);
 
     const getSpy = spyOn(userDataAccess, 'create')
       .mockImplementation(async (user: User) => {
@@ -257,12 +257,12 @@ describe('User Service Tests', () => {
       username: 'johndoe',
     };
 
-    await expect(userService.update(id, user)).rejects.toThrow('unexpected error occured while editing the user: Error: something went wrong');
+    await expect(userService.update(id, user)).rejects.toThrow('unexpected error occurred while editing the user: Error: something went wrong');
     expect(getSpy).toHaveBeenCalled();
   });
 
   test('update user throws AppError', async () => {
-    const appError = new AppError(errorManagement.commonErrors.InternalServerError, 'unexpected error occured while editing the user', false);
+    const appError = new AppError(errorManagement.commonErrors.InternalServerError, 'unexpected error occurred while editing the user', false);
 
     const getSpy = spyOn(userDataAccess, 'update')
       .mockImplementation(async (userId: string, user: Partial<User>) => {
@@ -325,12 +325,12 @@ describe('User Service Tests', () => {
         throw new Error('something went wrong')
       });
 
-    await expect(userService.remove(id)).rejects.toThrow('unexpected error occured while deleting the user: Error: something went wrong');
+    await expect(userService.remove(id)).rejects.toThrow('unexpected error occurred while deleting the user: Error: something went wrong');
     expect(getSpy).toHaveBeenCalled();
   });
 
   test('delete user throws AppError', async () => {
-    const appError = new AppError(errorManagement.commonErrors.InternalServerError, 'unexpected error occured while deleting the user', false);
+    const appError = new AppError(errorManagement.commonErrors.InternalServerError, 'unexpected error occurred while deleting the user', false);
 
     const getSpy = spyOn(userDataAccess, 'remove')
       .mockImplementation(async (userId: string) => {

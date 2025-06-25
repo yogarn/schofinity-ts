@@ -14,7 +14,7 @@ export async function hashPassword(plainText: string): Promise<string> {
       throw error;
     }
 
-    throw new AppError(errorManagement.bcryptErrors.InvalidPassword, 'unable to hash the user password', true);
+    throw new AppError(errorManagement.commonErrors.InternalServerError, 'unable to hash the user password', false);
   }
 };
 
@@ -27,6 +27,6 @@ export async function verifyPassword(plainText: string, hashedPassword: string):
       throw error;
     }
 
-    throw new AppError(errorManagement.bcryptErrors.InvalidPassword, 'unable to verify the user password', true);
+    throw new AppError(errorManagement.bcryptErrors.InvalidCredentials, 'unable to verify the user credentials', true);
   }
 };

@@ -11,7 +11,7 @@ const errorManagement = {
     InvalidJwt: { message: 'invalid jwt', status: 403 },
   },
   bcryptErrors: {
-    InvalidPassword: { message: 'invalid password', status: 401 },
+    InvalidCredentials: { message: 'invalid credentials', status: 401 },
   },
 };
 

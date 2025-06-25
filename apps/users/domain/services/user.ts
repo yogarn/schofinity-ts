@@ -17,7 +17,7 @@ export async function get(userId: string): Promise<UserResponse> {
       throw error;
     }
 
-    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occured while reading the user: ${error}`, false);
+    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occurred while reading the user: ${error}`, false);
   }
 };
 
@@ -33,7 +33,7 @@ export async function getAll(): Promise<UserResponse[]> {
       throw error;
     }
 
-    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occured while reading all users: ${error}`, false);
+    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occurred while reading all users: ${error}`, false);
   }
 };
 
@@ -56,7 +56,7 @@ export async function create(userRequest: RegisterSchema): Promise<UserResponse>
       throw error;
     }
 
-    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occured while creating the user: ${error}`, false);
+    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occurred while creating the user: ${error}`, false);
   }
 };
 
@@ -75,7 +75,7 @@ export async function update(userId: string, userRequest: PatchSchema): Promise<
     if (error instanceof AppError) {
       throw error;
     }
-    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occured while editing the user: ${error}`, false);
+    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occurred while editing the user: ${error}`, false);
   }
 };
 
@@ -87,7 +87,7 @@ export async function remove(userId: string): Promise<UserResponse> {
     if (error instanceof AppError) {
       throw error;
     }
-    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occured while deleting the user: ${error}`, false);
+    throw new AppError(errorManagement.commonErrors.InternalServerError, `unexpected error occurred while deleting the user: ${error}`, false);
   }
 };
 
