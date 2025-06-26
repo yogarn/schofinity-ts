@@ -1,4 +1,6 @@
 import bodyParser from 'body-parser';
+import cookierParser from 'cookie-parser';
+import cors from 'cors';
 import express from 'express';
 
 import { connectToDatabase } from '@/databases/postgres';
@@ -13,6 +15,14 @@ const port = 8080;
 connectToDatabase();
 
 app.use(bodyParser.json());
+app.use(cookierParser());
+
+app.use(
+  cors({
+    origin: "*",
+    credentials: true,
+  })
+);
 
 app.use('/api/v1', router);
 

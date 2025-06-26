@@ -45,13 +45,25 @@ const config = convict({
       env: 'DB_NAME',
     },
   },
-  jwt: {
+  token: {
     expiry: {
-      doc: 'Expiry Time',
+      doc: 'Token expiry time in seconds',
       format: number,
       default: 3600,
-      env: 'JWT_EXPIRY',
+      env: 'TOKEN_EXPIRY',
     },
+    httpOnly: {
+      doc: 'HTTP only token',
+      format: Boolean,
+      default: true,
+      env: 'TOKEN_HTTP_ONLY',
+    },
+    secure: {
+      doc: 'HTTPS secure token',
+      format: Boolean,
+      default: false,
+      env: 'TOKEN_SECURE',
+    }
   },
   bcrypt: {
     saltRound: {

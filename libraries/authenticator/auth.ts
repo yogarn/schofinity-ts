@@ -5,14 +5,13 @@ import type { NextFunction, Request, Response } from 'express';
 import type { JwtPayload } from 'jsonwebtoken';
 
 export async function authMiddleware(req: Request, res: Response, next: NextFunction): Promise<void> {
-  const authHeader: string | undefined = req.headers.authorization;
+  const token = req.cookies?.token;
 
   try {
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      throw new AppError(errorManagement.commonErrors.Unauthorized, 'failed to verify bearer token', true);
+    if (!token) {
+      throw new AppError(errorManagement.commonErrors.Unauthorized, 'failed to verify token', true);
     }
 
-    const token = authHeader.split(' ')[1];
     const decoded = verifyToken(token);
 
     if (typeof decoded === 'string') {
