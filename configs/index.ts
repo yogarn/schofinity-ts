@@ -49,6 +49,12 @@ const config = convict({
     expiry: {
       doc: 'Token expiry time in seconds',
       format: number,
+      default: 600,
+      env: 'TOKEN_EXPIRY',
+    },
+    refreshExpiry: {
+      doc: 'Refresh token expiry time in seconds',
+      format: number,
       default: 3600,
       env: 'TOKEN_EXPIRY',
     },
