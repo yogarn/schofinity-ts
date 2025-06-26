@@ -1,4 +1,6 @@
-import * as auths from '@/apps/auths/domain/services/auth';
+import * as authDataAccess from '@/apps/auths/data-access/auth';
+import type { Session } from '@/apps/auths/domain/entity/session';
+import * as authService from '@/apps/auths/domain/services/auth';
 import * as userDataAccess from '@/apps/users/data-access/user';
 import type { LoginResponse } from '@/apps/users/domain/dto/LoginResponse';
 import type { User } from '@/apps/users/domain/entity/user';
@@ -15,7 +17,9 @@ describe('Auth Service Tests', () => {
   });
 
   const token = 'mocked-jwt-token';
-  const expiry = 3600;
+  const refreshToken = 'mocked-refresh-token';
+  const expiry = 600;
+  const refreshExpiry = 3600;
 
   const user: User = {
     id: ulid(),
@@ -28,12 +32,29 @@ describe('Auth Service Tests', () => {
   };
 
   const expectedResponse: LoginResponse = {
-    email: user.email,
     jwt: token,
-    expiredIn: expiry,
+    refreshToken: refreshToken
+  };
+
+  const session: Session = {
+    id: ulid(),
+    token: refreshToken,
+    userId: user.id,
+    createdAt: new Date(),
+    expiresAt: new Date(Date.now() + refreshExpiry * 1000),
   };
 
   test('authenticate user with valid credentials', async () => {
+    mock.module('crypto', () => {
+      return {
+        default: {
+          randomBytes: (n: number) => ({
+            toString: (enc: string) => refreshToken,
+          }),
+        }
+      };
+    });
+
     const getByEmailSpy = spyOn(userDataAccess, 'getByEmail')
       .mockImplementation(async (email: string): Promise<User> => user);
 
@@ -43,7 +64,10 @@ describe('Auth Service Tests', () => {
     const signTokenSpy = spyOn(jwt, 'signToken')
       .mockImplementation((userId: string, roleId: number): string => token);
 
-    const result = await auths.authenticate({
+    const createSessionSpy = spyOn(authDataAccess, 'createSession')
+      .mockImplementation(async (session: Session): Promise<Session> => session);
+
+    const result = await authService.authenticate({
       email: user.email,
       password: user.password,
     });
@@ -51,6 +75,7 @@ describe('Auth Service Tests', () => {
     expect(getByEmailSpy).toHaveBeenCalled();
     expect(verifyPasswordSpy).toHaveBeenCalled();
     expect(signTokenSpy).toHaveBeenCalled();
+    expect(createSessionSpy).toHaveBeenCalled();
 
     expect(result).toEqual(expectedResponse);
   });
@@ -63,7 +88,7 @@ describe('Auth Service Tests', () => {
         throw appError;
       });
 
-    await expect(auths.authenticate({
+    await expect(authService.authenticate({
       email: user.email,
       password: user.password,
     })).rejects.toThrow('invalid credentials');
@@ -78,7 +103,7 @@ describe('Auth Service Tests', () => {
     const verifyPasswordSpy = spyOn(bcrypt, 'verifyPassword')
       .mockImplementation(async (password: string, hashedPassword: string): Promise<boolean> => false);
 
-    await expect(auths.authenticate({
+    await expect(authService.authenticate({
       email: user.email,
       password: user.password,
     })).rejects.toThrow('invalid credentials');
@@ -95,7 +120,7 @@ describe('Auth Service Tests', () => {
         throw appError;
       });
 
-    await expect(auths.authenticate({
+    await expect(authService.authenticate({
       email: user.email,
       password: user.password,
     })).rejects.toThrow('internal server error');
@@ -112,7 +137,7 @@ describe('Auth Service Tests', () => {
         throw error;
       });
 
-    await expect(auths.authenticate({
+    await expect(authService.authenticate({
       email: user.email,
       password: user.password,
     })).rejects.toThrow('unexpected error occurred while authenticate the user: Error: internal server error');
